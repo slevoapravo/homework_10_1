@@ -15,12 +15,17 @@ mypy = "^1.11.2"
 black = "^24.8.0"
 isort = "^5.13.2"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 119
+exclude = '.git'
 
 [tool.isort]
 line_length = 119
@@ -32,4 +37,6 @@ exclude = 'venv'
 
 [flake8]
 max-line-length = 119
-exclude = .git, __pycache__
+exclude = '.git'
+
+
