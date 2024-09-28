@@ -29,5 +29,6 @@ def test_filter_by_state(list_dictionaries: Any, state: Any) -> Any:
 def test_sort_by_date(date_list_dictionaries: Any, expected: Any) -> Any:
     try:
         assert sort_by_date(date_list_dictionaries) == expected
+
     except AssertionError:
         print("Некорректные данные")

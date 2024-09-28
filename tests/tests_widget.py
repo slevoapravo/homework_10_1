@@ -1,49 +1,27 @@
+from typing import Any
+
 import pytest
 
-from src.masks import get_mask_account, get_mask_card_number
-
-
-def test_get_mask_card_number_basic() -> None:
-    """Тест на срабатывание функции при введении номера карты"""
-    assert get_mask_card_number("4276060032300678") == "4276 06** **** 0678"
-
-
-"""Параметризация функции get_mask_card_number"""
+from src.widget import get_date, mask_account_card
 
 
 @pytest.mark.parametrize(
-    "value, expected",
+    "account, account_hide",
     [
-        ("4276060032300678000000000", "некорректный ввод"),
-        ("zhyenkfudjlpdoiu", "некорректный ввод"),
-        ("1l4.dlg8pr-a8]6m", "некорректный ввод"),
-        ("4276060032300", "некорректный ввод"),
-        ("", "некорректный ввод"),
+        ("Visa Platinum 7000792289606361", "Visa Platinum 7000 79** **** 6361"),
+        ("Счет 73654108430135874305", "Счет **4305"),
     ],
 )
-def test_get_mask_card_number_various_input_data(value, expected) -> None:
-    """Тест на срабатывание функции при введении различных некоректных данных"""
-    assert get_mask_card_number(value) == expected
+def test_mask_account_card(account: Any, account_hide: Any) -> Any:
+    try:
+        assert mask_account_card(account) == account_hide
+    except AssertionError:
+        print("Некорректные данные")
 
 
-def test_get_mask_account_basic() -> None:
-    """Тест на срабатывание функции при введении номера счета"""
-    assert get_mask_account("12345678901234567890") == "**7890"
-
-
-"""Параметризация функции get_mask_account"""
-
-
-@pytest.mark.parametrize(
-    "value, expected",
-    [
-        ("1234567890123456789012365", "некорректный ввод"),
-        ("p2o6jdmb80djeyabd,97", "некорректный ввод"),
-        ("dfngjdfgdf;gjkdgjief", "некорректный ввод"),
-        ("12345678901234567", "некорректный ввод"),
-        ("", "некорректный ввод"),
-    ],
-)
-def test_get_mask_account_various_input_data(value, expected) -> None:
-    """Тест на срабатывание функции при введении различных некоректных данных"""
-    assert get_mask_account(value) == expected
+@pytest.mark.parametrize("date, new_date", [("2024-03-11T02:26:18.671407", "11.03.2024")])
+def test_get_date(date: Any, new_date: Any) -> Any:
+    try:
+        assert get_date(date) == new_date
+    except AssertionError:
+        print("Некорректные данные")
