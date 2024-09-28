@@ -1,4 +1,4 @@
-from src.masks import get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(data_card: str) -> str:
@@ -11,3 +11,11 @@ def mask_account_card(data_card: str) -> str:
 
 
 print(mask_account_card("Visa Platinum 7000792289606361"))
+
+
+def get_date(date: str) -> str | None:
+    """Функция получения даты в определенном формате и возвращения в формате ДД.ММ.ГГГГ"""
+    return f'{date[8:10]}.{date[5:7]}.{date[8:4]}'
+
+
+print(get_date('2024-09-23T16:14:15.4545556'))
