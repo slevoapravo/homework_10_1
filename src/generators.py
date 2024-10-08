@@ -1,7 +1,7 @@
-from typing import Iterator
+from typing import Generator
 
 
-def filter_by_currency(transactions: list[dict], code: str = "USD") -> Iterator:
+def filter_by_currency(transactions: list[dict], code: str = "USD") -> Generator:
     if len(transactions) > 0:
         for transaction in transactions:
             if transaction["operationAmount"]["currency"]["code"] == code:
@@ -10,7 +10,7 @@ def filter_by_currency(transactions: list[dict], code: str = "USD") -> Iterator:
         raise StopIteration("Ввели пустой список")
 
 
-def transaction_descriptions(transactions: list) -> Iterator:
+def transaction_descriptions(transactions: list) -> Generator:
     """Функция принимает список словарей транзакций и возвращает описание каждой"""
     if not transactions:
         print("Нет транзакций")
@@ -18,7 +18,7 @@ def transaction_descriptions(transactions: list) -> Iterator:
         yield description.get("description")
 
 
-def card_number_generator(start: int, end: int) -> Iterator:
+def card_number_generator(start: int, end: int) -> Generator:
     """Функция генерирует номера карт в указанном диапазоне"""
     for num in range(start, end + 1):
         card_number = str(num)
