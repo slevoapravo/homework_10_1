@@ -3,10 +3,12 @@ import re
 
 import pandas as pd
 
+import src
 from src.generators import filter_by_currency
-from src.masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_card_number, get_mask_account
 from src.processing import filter_by_state, sort_by_date
 from src.utils import get_transactions_dictionary, get_transactions_dictionary_csv, get_transactions_dictionary_excel
+from src.filter_by_word import str_sort
 
 PATH_TO_FILE_JSON = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "operations.json")
 PATH_TO_FILE_CSV = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "transactions.csv")
@@ -14,7 +16,7 @@ PATH_TO_FILE_EXCEL = os.path.join(os.path.dirname(os.path.dirname(__file__)), "d
 
 
 def main():
-    """Main function of the Project."""
+
 
     while True:
         menu_item = input(
@@ -84,12 +86,12 @@ def main():
     else:
         print(f"Всего банковских операций в выборке: {len(filtered_transactions)}")
         for tr in filtered_transactions:
-            tr_date = get_mask_account(tr["date"])
+            tr_date = src.masks.get_mask_account(tr["date"])
             currency = tr["operationAmount"]["currency"]["name"]
             if tr["description"] == "Открытие вклада":
-                from_to = get_mask_card_number(tr["to"])
+                from_to = src.masks.get_mask_card_number(tr["to"])
             else:
-                from_to = get_mask_card_number(tr["from"]) + " -> " + get_mask_card_number(tr["to"])
+                from_to = src.masks.get_mask_card_number(tr["from"]) + " -> " + src.masks.get_mask_card_number(tr["to"])
 
             amount = tr["operationAmount"]["amount"]
             print(
