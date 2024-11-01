@@ -1,15 +1,42 @@
-import re
-
 from collections import defaultdict
 
 
+import re
+
 def str_sort(filtered_transactions: list[dict], word: str) -> list[dict]:
-    found_operations = []
-    for operation in filtered_transactions:
-        if re.search(word, operation.get("description", "")):
-            found_operations.append(operation)
-            filtered_transactions = found_operations
-        return filtered_transactions
+    """
+    Фильтрация и сортировка списка словарей по наличию подстроки в поле "description".
+
+    Args:
+        filtered_transactions: Список словарей, где каждый словарь представляет транзакцию
+                               и содержит ключ "description" (строка).  Если ключа нет,
+                               значение по умолчанию - пустая строка.
+        word: Подстрока, по которой осуществляется поиск в поле "description".
+
+    Returns:
+        Отсортированный список словарей, содержащих транзакции, в описании которых
+        найдена заданная подстрока.  Возвращает пустой список, если совпадений нет.
+        Сортировка производится по полю "description" (лексикографически).
+
+    Raises:
+        TypeError: Если `filtered_transactions` не является списком словарей.
+        TypeError: Если `word` не является строкой.
+
+    """
+    if not isinstance(filtered_transactions, list):
+        raise TypeError("filtered_transactions must be a list of dictionaries.")
+    if not all(isinstance(item, dict) for item in filtered_transactions):
+        raise TypeError("filtered_transactions must be a list of dictionaries.")
+    if not isinstance(word, str):
+        raise TypeError("word must be a string.")
+
+    found_operations = [
+        op for op in filtered_transactions if re.search(word, op.get("description", ""))
+    ]
+    found_operations.sort(key=lambda x: x.get("description", "")) # Сортировка по description
+    return found_operations
+
+
 
 
 # def filter_transactions(transactions_list: list[dict], search_string: str) -> list[dict]:

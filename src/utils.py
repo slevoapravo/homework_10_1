@@ -37,11 +37,10 @@ def get_transactions_dictionary(path: str) -> dict | Any:
         list_trans = []
         auth_logger.info("Файл поврежден")
         return list_trans
-        # говорит о возрощений пипа list
 
 
 def get_transactions_dictionary_csv(csv_path: str) -> list[dict]:
-    """Aункция пути до CSV-файла и возвращает список словарей с данными о финансовых транзакциях"""
+    """Функция пути до CSV-файла и возвращает список словарей с данными о финансовых транзакциях"""
 
     transaction_list = []
     try:
@@ -71,7 +70,7 @@ def get_transactions_dictionary_csv(csv_path: str) -> list[dict]:
 
 
 def get_transactions_dictionary_excel(excel_path: str) -> list[dict]:
-    """FAункция пути до EXCEL-файла и возвращает список словарей с данными о финансовых транзакциях"""
+    """Функция пути до EXCEL-файла и возвращает список словарей с данными о финансовых транзакциях"""
 
     transaction_list = []
     try:
