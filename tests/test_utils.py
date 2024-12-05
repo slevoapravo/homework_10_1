@@ -1,5 +1,4 @@
 import os
-
 from unittest.mock import patch
 
 import pytest
@@ -71,8 +70,8 @@ def test_financial_transactions(path):
         "operationAmount": {
             "amount": "31957.58",
             "currency": {
-             "name": "руб.",
-             "code": "RUB"}},
+            "name": "руб.",
+            "code": "RUB"}},
         "description": "Перевод организации",
         "from": "Maestro 1596837868705199",
         "to": "Счет 64686473678894779589"}

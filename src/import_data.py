@@ -1,66 +1,43 @@
 import csv
+from typing import Any
 
 import pandas as pd
 
-
-def get_data_from_csv(csv_path: str) -> list[dict]:
-    """Function get data from csv file."""
-
-    transaction_list = []
-    try:
-        with open(csv_path, encoding="utf-8") as csv_file:
-            reader = csv.reader(csv_file, delimiter=";")
-            next(reader)
-            for row in reader:
-                if row:
-                    id_, state, date, amount, currency_name, currency_code, from_, to, description = row
-                    transaction_list.append(
-                        {
-                            "id": str(id_),
-                            "state": state,
-                            "date": date,
-                            "operationAmount": {
-                                "amount": str(amount),
-                                "currency": {"name": currency_name, "code": currency_code},
-                            },
-                            "description": description,
-                            "from": from_,
-                            "to": to,
-                        }
-                    )
-    except Exception:
-        return []
-    return transaction_list
+PATH_TO_CSV = "../data/transactions.csv"
+PATH_TO_EXCEL = "../data/transactions_excel.xlsx"
 
 
-def get_data_from_excel(excel_path: str) -> list[dict]:
-    """Function get data from excel file."""
+def financial_transactions_csv(PATH_TO_CSV):
+    ''' Функция для считывания финансовых операций из csv-файла и выдачи списка словарей с транзакциями '''
+    result = []  # Список для хранения преобразованных строк
+    with open(PATH_TO_CSV, mode='r', encoding='utf-8') as file:
+        reader = csv.DictReader(file, delimiter=';')  # Чтение файла с разделителем `;`
 
-    transaction_list = []
-    try:
-        excel_data = pd.read_excel(excel_path)
-        len_, b = excel_data.shape
-        for i in range(len_):
-            if excel_data["id"][i]:
-                transaction_list.append(
-                    {
-                        "id": str(excel_data["id"][i]),
-                        "state": excel_data["state"][i],
-                        "date": excel_data["date"][i],
-                        "operationAmount": {
-                            "amount": str(excel_data["amount"][i]),
-                            "currency": {
-                                "name": excel_data["currency_name"][i],
-                                "code": excel_data["currency_code"][i],
-                            },
-                        },
-                        "description": excel_data["description"][i],
-                        "from": excel_data["from"][i],
-                        "to": excel_data["to"][i],
-                    }
-                )
-            else:
-                continue
-    except Exception:
-        return []
-    return transaction_list
+        for row in reader:
+            # Преобразование строки в нужный формат
+            transformed_row = {
+                'id': row['id'],
+                'state': row['state'],
+                'date': row['date'],
+                'amount': row['amount'],
+                'currency_name': row['currency_name'],
+                'currency_code': row['currency_code'],
+                'from': row['from'],
+                'to': row['to'],
+                'description': row['description']
+            }
+            result.append(transformed_row)  # Добавление преобразованного словаря в список
+
+    return result
+
+
+def transactions_from_excel(PATH_TO_EXCEL: Any) -> Any:
+    ''' Функция для считывания финансовых операций из excel-файла и выдачи списка словарей с транзакциями '''
+    df = pd.read_excel(PATH_TO_EXCEL)
+    transactions = df.to_dict(orient='records')
+    return transactions
+
+
+if __name__ == "__main__":
+    transaction = financial_transactions_csv(PATH_TO_CSV)
+    print(transaction)
