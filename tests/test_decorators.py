@@ -1,6 +1,8 @@
-from src.decorators import log
 import os
+
 import pytest
+
+from src.decorators import log
 
 
 @pytest.fixture(scope='function', autouse=True)
